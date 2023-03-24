@@ -8,6 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
+  const [numNames, setNumNames] = useState(1)
+  const [origin, setOrigin] = useState('')
   const [input, setInput] = useState('')
   const [names, setNames] = useState([])
 
@@ -17,7 +19,7 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ input }),
+      body: JSON.stringify({ numNames, origin, input }),
     })
     const data = await res.json()
     console.log(data)
@@ -40,13 +42,36 @@ export default function Home() {
         <h2 className='text-2xl font-bold text-center pb-2'>Rimword Name Generator</h2>
 
         <div className='flex flex-col gap-4 justify-center w-1/3 mx-auto'>
+
+          <div>
+            <label className=''>
+              Number of names to generate:
+              <input className='input'
+              type="number"
+              value={numNames}
+              onChange={(event) => setNumNames(event.target.valueAsNumber)}
+              />
+            </label>
+
+            <label>
+              Origin:
+              <select className='select' value={origin} onChange={(event) => setOrigin(event.target.value)}>
+              <option value="global">Select an Origin</option>
+              <option value="global">None</option>
+              <option value="random">Random</option>
+              <option value="medieval">Medieval</option>
+              <option value="tribal">Tribal</option>
+              </select>
+            </label>
+          </div>
+
           <div className='relative'>
             <textarea 
               rows={3}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className='w-full border-2 border-gray-300 bg-white p-4 rounded-lg text-sm focus:outline-none resize-none'
-              placeholder='Enter the amount of names you want.'
+              placeholder='Enter special wishes.'
             />
             
           </div>
@@ -54,15 +79,15 @@ export default function Home() {
             Generate
           </button>
 
-          <ul>
+          <ul className='border-2 text-center p-2'>
             {names && names.length > 0 ? (
-              names.map((person) => (
+              names.map((person, index) => (
                 <li key={person[0]}>
-                  {person[0]} "{person[1]}" {person[2]}
+                  {index + 1}. {person[0]} "{person[1]}" {person[2]}
                 </li>
               ))
             ) : (
-              <li>No data available</li>
+              <li>No names generated yet</li>
             )}
           </ul>
 

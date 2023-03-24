@@ -11,11 +11,11 @@ const openai = new OpenAIApi(configuration)
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data> ) {
 
-  const { input } = req.body
+  const { numNames, origin, input } = req.body
 
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: `You are a Person that loves traveling. You have met thousands of people in your life and experienced different cultures. Provide new and creative Names containing first name, nickname and family name for the specified amount of Rimworld Colonists below. Pay attention to the desired origin below and additional wishes. Output the names as Arrays inside an Array. Remeber, that the nickname has to be in the origin language if defined.\n\nAmount:\"\"\"${input}\"\"\"\n\nOrigin:\"\"\"German\"\"\"\n\nAdditional Wishes:\"\"\"None\"\"\"\n\nOutput:`,
+    prompt: `You are a Person that loves traveling. You have met thousands of people in your life and experienced different cultures. Provide new and creative Names containing first name, nickname and family name for the specified amount of Rimworld Colonists below. Pay attention to the desired origin below and additional wishes. Output the names as Arrays inside an Array without quotes. Remeber, that the nickname has to be in the origin language if defined. Amount: """ ${numNames} """ Origin: """ ${origin} """ Additional Wishes: """ ${input} """ Output:`,
     temperature: 0.7,
     max_tokens: 256,
     top_p: 1,
