@@ -22,10 +22,8 @@ export default function Home() {
       body: JSON.stringify({ numNames, origin, input }),
     })
     const data = await res.json()
-    console.log(data)
     const result = JSON.parse(data.result)
     setNames(result)
-    console.log(names)
     
   }
 
@@ -44,26 +42,37 @@ export default function Home() {
         <div className='flex flex-col gap-4 justify-center w-1/3 mx-auto'>
 
           <div>
-            <label className=''>
-              Number of names to generate:
-              <input className='input'
-              type="number"
-              value={numNames}
-              onChange={(event) => setNumNames(event.target.valueAsNumber)}
+            <div className='py-4'>
+              <label className='block mb-2 text-md font-medium text-gray-900'>
+                1. Number of Colonists you need names for:
+              </label>
+              <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+                type="number"
+                value={numNames}
+                onChange={(event) => setNumNames(event.target.valueAsNumber)}
               />
-            </label>
+            </div>
 
-            <label>
-              Origin:
-              <select className='select' value={origin} onChange={(event) => setOrigin(event.target.value)}>
-              <option value="global">Select an Origin</option>
-              <option value="global">None</option>
-              <option value="random">Random</option>
-              <option value="medieval">Medieval</option>
-              <option value="tribal">Tribal</option>
+            <div>
+              <label className='block mb-2 text-md font-medium text-gray-900'>
+                2. Select the origin of your names e.g "German"
+              </label>
+              <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' value={origin} onChange={(event) => setOrigin(event.target.value)}>
+                <option value="global">Select an Origin</option>
+                <option value="random">Random</option>
+                <option value="medieval">Medieval</option>
+                <option value="tribal">Tribal</option>
+                <option value="japanese">Japanese</option>
+                <option value="chinese">Chinese</option>
+                <option value="german">German</option>
+                <option value="french">French</option>
               </select>
-            </label>
+            </div>
           </div>
+
+          <label className='block mb-2 text-md font-medium text-gray-900'>
+            3. Enter special wishes like 3 Woman 6 Men
+          </label>
 
           <div className='relative'>
             <textarea 
@@ -79,10 +88,10 @@ export default function Home() {
             Generate
           </button>
 
-          <ul className='border-2 text-center p-2'>
+          <ul className='border-2 border-gray-300 text-gray-900 text-md rounded-lg block'>
             {names && names.length > 0 ? (
               names.map((person, index) => (
-                <li key={person[0]}>
+                <li key={person[0]} className="p-2">
                   {index + 1}. {person[0]} "{person[1]}" {person[2]}
                 </li>
               ))
